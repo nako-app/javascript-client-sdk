@@ -33,7 +33,7 @@ export class NakoClient {
     const result = await response.json()
 
     return {
-      items: result.map(r => {
+      items: result.items.map(r => {
         return {
           createdAt: r.created_at,
           happenedAt: r.happened_at,
