@@ -24,6 +24,7 @@ export interface ActivityResource {
 export interface Activity {
   createdAt: Date
   happenedAt: Date
+  id: String
   operation: String
   resource: ActivityResource
   actor: ActivityActor

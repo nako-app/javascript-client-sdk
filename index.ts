@@ -37,6 +37,7 @@ export class NakoClient {
         return {
           createdAt: r.created_at,
           happenedAt: r.happened_at,
+          id: r.id,
           operation: r.operation,
           resource: r.resource,
           actor: {
