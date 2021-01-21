@@ -1,6 +1,6 @@
 {
   "name": "nako-client-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Nako's JavaScript client SDK",
   "main": "dist/index.js",
   "scripts": {
