@@ -45,7 +45,8 @@ export class NakoClient {
             type: r.actor.type,
             firstName: r.actor.first_name,
             lastName: r.actor.last_name
-          }
+          },
+          result: r.result
         }
       }),
       total: result.total

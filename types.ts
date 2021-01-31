@@ -9,6 +9,8 @@ export interface Filters {
 
 type ActivityType = 'user ' | 'system'
 
+type ActivityResultStatus = 'error' | 'success'
+
 export interface ActivityActor {
   type?: ActivityType
   id: String
@@ -21,13 +23,19 @@ export interface ActivityResource {
   name?: String
 }
 
+export interface ActivityResult {
+  status: ActivityResultStatus
+  details?: Map<String, Object>
+}
+
 export interface Activity {
   createdAt: Date
   happenedAt: Date
   id: String
   operation: String
   resource: ActivityResource
-  actor: ActivityActor
+  actor: ActivityActor,
+  result?: ActivityResult
 }
 
 export interface ActivityList {
