@@ -4,7 +4,8 @@
   "description": "Nako's JavaScript client SDK",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,5 @@
   "dependencies": {
     "typescript": "^4.1.3"
   },
-  "types": "dist/index.d.ts",
-  "prepublish": "tsc"
+  "types": "dist/index.d.ts"
 }

@@ -32,6 +32,7 @@ export interface Activity {
   createdAt: Date
   happenedAt: Date
   id: String
+  metadata?: Map<String, Object>
   operation: String
   resource: ActivityResource
   actor: ActivityActor,

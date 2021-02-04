@@ -38,6 +38,7 @@ export class NakoClient {
           createdAt: r.created_at,
           happenedAt: r.happened_at,
           id: r.id,
+          metadata: r.metadata,
           operation: r.operation,
           resource: r.resource,
           actor: {
