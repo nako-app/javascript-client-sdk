@@ -40,14 +40,16 @@ export class NakoClient {
           id: r.id,
           metadata: r.metadata,
           operation: r.operation,
-          resource: r.resource,
-          actor: {
-            id: r.actor.id,
-            type: r.actor.type,
-            firstName: r.actor.first_name,
-            lastName: r.actor.last_name
-          },
-          result: r.result
+          resources: r.resources,
+          actors: r.actors.map(a => { return {
+            id: a.id,
+            type: a.type,
+            firstName: a.first_name,
+            lastName: a.last_name,
+            isPrimary: a.is_primary
+          }}),
+          result: r.result,
+          state: r.state
         }
       }),
       total: result.total

@@ -11,11 +11,14 @@ type ActivityType = 'user ' | 'system'
 
 type ActivityResultStatus = 'error' | 'success'
 
+type ActivityStateStatus = 'scheduled' | 'in_progress' | 'completed'
+
 export interface ActivityActor {
   type?: ActivityType
   id: String
   firstName: String
   lastName: String
+  isPrimary: boolean
 }
 
 export interface ActivityResource {
@@ -28,15 +31,21 @@ export interface ActivityResult {
   details?: Map<String, Object>
 }
 
+export interface ActivityState {
+  status: ActivityStateStatus
+  details?: Map<String, Object>
+}
+
 export interface Activity {
   createdAt: Date
   happenedAt: Date
   id: String
   metadata?: Map<String, Object>
   operation: String
-  resource: ActivityResource
-  actor: ActivityActor,
+  resources: ActivityResource[]
+  actors: ActivityActor[]
   result?: ActivityResult
+  state?: ActivityState
 }
 
 export interface ActivityList {
