@@ -1,12 +1,19 @@
 import { ActivityList, Filters } from './types'
 
-export class NakoClient {
-  static apiKey
+interface NakoClientOptions {
+  apiKey?: string
+  token?: string
+}
 
-  // TODO api keys only work for the all-public flow
-  // Add support to token generation flow
-  static init(apiKey: String) {
-    NakoClient.apiKey = apiKey
+export class NakoClient {
+  static options: NakoClientOptions
+
+  static init(options: NakoClientOptions) {
+    if (!options || (!options.apiKey && !options.token)) {
+      throw new Error('Nako must be initialized with an API Key or a token.')
+    }
+
+    NakoClient.options = options
     return new NakoClient()
   }
 
@@ -25,7 +32,7 @@ export class NakoClient {
 
     const response = await fetch(url.toString(), {
       headers: {
-        'x-api-key': NakoClient.apiKey
+        'authorization': this.getAuthorizationHeader()
       }
     })
 
@@ -54,5 +61,9 @@ export class NakoClient {
       }),
       total: result.total
     }
+  }
+
+  private getAuthorizationHeader(): string {
+    return <string> (NakoClient.options.apiKey || NakoClient.options.token)
   }
 }
