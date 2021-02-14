@@ -9,7 +9,7 @@
     }
   },
   "lint-staged": {
-    "{src,public}/**/*.*": "prettier --config=.prettierrc --write --ignore-unknown"
+    "*.ts": "prettier --config=.prettierrc --write --ignore-unknown"
   },
   "scripts": {
     "build": "tsc",
