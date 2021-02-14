@@ -7,14 +7,24 @@ export interface Filters {
   pagination?: Pagination
 }
 
-type ActivityType = 'user ' | 'system'
+export enum ActivityActorType {
+  System = 'system',
+  User = 'user'
+}
 
-type ActivityResultStatus = 'error' | 'success'
+export enum ActivityResultStatus {
+  Error = 'error',
+  Success = 'success'
+}
 
-type ActivityStateStatus = 'scheduled' | 'in_progress' | 'completed'
+export enum ActivityStateStatus {
+  Scheduled = 'scheduled',
+  InProgress = 'in_progress',
+  Completed = 'completed'
+}
 
 export interface ActivityActor {
-  type?: ActivityType
+  type?: ActivityActorType
   id: String
   firstName: String
   lastName: String
