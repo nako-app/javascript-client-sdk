@@ -3,10 +3,9 @@
     "outDir": "dist",
     "module": "commonjs",
     "target": "es6",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "strictNullChecks": true,
-    "declaration": true
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true
   },
   "exclude": ["node_modules", "dist"]
 }
