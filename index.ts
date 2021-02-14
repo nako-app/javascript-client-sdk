@@ -32,7 +32,7 @@ export class NakoClient {
 
     const response = await fetch(url.toString(), {
       headers: {
-        authorization: this.getAuthorizationHeader()
+        Authorization: this.getAuthorizationHeader()
       }
     })
 
