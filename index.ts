@@ -32,7 +32,7 @@ export class NakoClient {
 
     const response = await fetch(url.toString(), {
       headers: {
-        'authorization': this.getAuthorizationHeader()
+        authorization: this.getAuthorizationHeader()
       }
     })
 
@@ -48,13 +48,15 @@ export class NakoClient {
           metadata: r.metadata,
           operation: r.operation,
           resources: r.resources,
-          actors: r.actors.map(a => { return {
-            id: a.id,
-            type: a.type,
-            firstName: a.first_name,
-            lastName: a.last_name,
-            isPrimary: a.is_primary
-          }}),
+          actors: r.actors.map(a => {
+            return {
+              id: a.id,
+              type: a.type,
+              firstName: a.first_name,
+              lastName: a.last_name,
+              isPrimary: a.is_primary
+            }
+          }),
           result: r.result,
           state: r.state
         }
@@ -64,6 +66,6 @@ export class NakoClient {
   }
 
   private getAuthorizationHeader(): string {
-    return <string> (NakoClient.options.apiKey || NakoClient.options.token)
+    return <string>(NakoClient.options.apiKey || NakoClient.options.token)
   }
 }
