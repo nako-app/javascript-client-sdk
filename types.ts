@@ -34,6 +34,7 @@ export interface ActivityActor {
 export interface ActivityResource {
   id: String
   name?: String
+  type?: String
 }
 
 export interface ActivityResult {
