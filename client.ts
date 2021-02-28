@@ -1,3 +1,7 @@
+import fetch from 'cross-fetch'
+import { ApolloClient, createHttpLink, gql } from '@apollo/client/core'
+import { InMemoryCache } from '@apollo/client/cache'
+import { setContext } from '@apollo/client/link/context'
 import { ActivityList, Filters } from './types'
 
 interface NakoClientOptions {
@@ -6,41 +10,65 @@ interface NakoClientOptions {
 }
 
 export class NakoClient {
-  static options: NakoClientOptions
+  static client
 
   static init(options: NakoClientOptions) {
     if (!options || (!options.apiKey && !options.token)) {
       throw new Error('Nako must be initialized with an API Key or a token.')
     }
 
-    NakoClient.options = options
+    const httpLink = createHttpLink({
+      uri: 'https://api.nako.co/v1/graphql',
+      fetch
+    })
+
+    const authLink = setContext((_, { headers }) => {
+      return {
+        headers: {
+          ...headers,
+          authorization: NakoClient.getAuthorizationHeader(options)
+        }
+      }
+    })
+
+    NakoClient.client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: authLink.concat(httpLink),
+      queryDeduplication: false
+    })
+
     return new NakoClient()
   }
 
   async getActivities(filters?: Filters): Promise<ActivityList> {
-    const url = new URL('https://api.nako.co/v1/activities')
+    const page = filters?.pagination?.page || 0
+    const limit = filters?.pagination?.limit || 10
 
-    if (filters) {
-      const params = {}
-      if (filters.pagination) {
-        params['page'] = filters.pagination.page || 0
-        params['limit'] = filters.pagination.limit || 10
-      }
-
-      url.search = new URLSearchParams(params).toString()
-    }
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        Authorization: this.getAuthorizationHeader()
-      }
+    const result = await NakoClient.client.query({
+      query: gql`
+        query {
+          activities(page: ${page}, limit: ${limit}, sort: {
+            direction: ${filters?.sort?.direction || 'desc'}
+          }) {
+            items {
+              id
+              happened_at
+              metadata
+              operation
+              actors {
+                id
+                first_name
+                last_name
+              }
+            }
+            total
+          }
+        }
+      `
     })
 
-    // TODO - handle errors
-    const result = await response.json()
-
     return {
-      items: result.items.map(r => {
+      items: result.data.activities.items.map(r => {
         return {
           createdAt: r.created_at,
           happenedAt: r.happened_at,
@@ -65,7 +93,7 @@ export class NakoClient {
     }
   }
 
-  private getAuthorizationHeader(): string {
-    return <string>(NakoClient.options.apiKey || NakoClient.options.token)
+  private static getAuthorizationHeader(options: NakoClientOptions): string {
+    return <string>(options.apiKey || options.token)
   }
 }

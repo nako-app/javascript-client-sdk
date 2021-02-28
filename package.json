@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "description": "Nako's JavaScript client SDK",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "lint-staged": {
     "*.ts": "prettier --config=.prettierrc --write --ignore-unknown"
   },
@@ -13,7 +14,8 @@
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "test": "mocha -r ts-node/register **/*.test.ts"
   },
   "repository": {
     "type": "git",
@@ -29,15 +31,24 @@
   },
   "homepage": "https://github.com/nako-app/javascript-clientsdk#readme",
   "dependencies": {
+    "@apollo/client": "^3.3.11",
+    "apollo-link": "^1.2.14",
+    "cross-fetch": "^3.0.6",
+    "graphql": "^15.5.0",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.31",
+    "chai": "^4.3.0",
     "husky": "^5.1.1",
     "lint-staged": "^10.5.4",
-    "pinst": "^2.1.6"
+    "mocha": "^8.3.0",
+    "pinst": "^2.1.6",
+    "ts-node": "^9.1.1"
   },
   "files": [
     "dist/*"
-  ],
-  "types": "dist/index.d.ts"
+  ]
 }

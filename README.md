@@ -31,3 +31,15 @@ The client SDK only exposes methods to retrieve activities. Ingesting activities
 ## Contributing
 
 We welcome all contribution! You can always open an issue in this repo and we'll respond as soon as possible. But if you feel like sharing some of your precious time with us, be our guest and open a PR.
+
+### Setup
+
+Run `npm install`
+
+### Build
+
+Run `npm run build`
+
+### Tests
+
+Set an API key with `export NAKO_API_KEY=MY_API_KEY` and then run `npm run test`

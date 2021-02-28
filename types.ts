@@ -3,8 +3,13 @@ export interface Pagination {
   page: Number
 }
 
+export interface Sort {
+  direction?: 'asc' | 'desc'
+}
+
 export interface Filters {
   pagination?: Pagination
+  sort?: Sort
 }
 
 export enum ActivityActorType {
