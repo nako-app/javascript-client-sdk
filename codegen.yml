@@ -3,7 +3,7 @@ schema:
       headers:
         Authorization: "IwTaMDSpMV2NkjaRxvw7dXjHgMLx1yO8yuUT49cc"
 generates:
-  ./api.d.ts:
+  ./api.ts:
     plugins:
       - typescript
       - typescript-operations

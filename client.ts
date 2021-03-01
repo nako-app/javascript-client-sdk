@@ -43,7 +43,14 @@ export class NakoClient {
   }
 
   async getActivities(args?: QueryActivitiesArgs): Promise<ActivityList> {
-    const params = args ? `(${JSON.stringify(args).replace('{', '').replace('}', '')})` : ''
+    const params = args
+      ? `(${JSON.stringify(args)
+          .replace('{', '')
+          .replace('}', '')
+          .replace(/"([^"]+)":/g, '$1:')
+          .replace(/"asc"/g, 'asc')
+          .replace(/"desc"/g, 'desc')})`
+      : ''
 
     const result = await NakoClient.client.query({
       query: gql`

@@ -1,24 +1,19 @@
 import { expect } from 'chai'
 import { describe, it } from 'mocha'
-import { NakoClient } from '../index'
-import { SortDirection } from '../api'
+import { NakoClient, SortDirection } from '../index'
 
 describe('SDK functional tests', () => {
-  it('can retrieve activities without filters', async () => {
-    const sdk = NakoClient.init({
-      apiKey: process.env['NAKO_API_KEY'] ?? ''
-    })
+  const sdk = NakoClient.init({
+    apiKey: process.env['NAKO_API_KEY'] ?? ''
+  })
 
+  it('can retrieve activities without filters', async () => {
     const response = await sdk.getActivities()
 
     validateResponse(response)
   })
 
   it('can retrieve activities with pagination', async () => {
-    const sdk = NakoClient.init({
-      apiKey: process.env['NAKO_API_KEY'] ?? ''
-    })
-
     const response = await sdk.getActivities({
       page: 0,
       limit: 10
@@ -28,10 +23,6 @@ describe('SDK functional tests', () => {
   })
 
   it('can retrieve activities with sort', async () => {
-    const sdk = NakoClient.init({
-      apiKey: process.env['NAKO_API_KEY'] ?? ''
-    })
-
     const response = await sdk.getActivities({
       sort: {
         direction: SortDirection.Asc
@@ -41,14 +32,22 @@ describe('SDK functional tests', () => {
     validateResponse(response)
   })
 
-  it('can retrieve activities with filters', async () => {
-    const sdk = NakoClient.init({
-      apiKey: process.env['NAKO_API_KEY'] ?? ''
-    })
-
+  it('can retrieve activities with one filter', async () => {
     const response = await sdk.getActivities({
       filters: {
         operation: 'create'
+      }
+    })
+
+    validateResponse(response)
+  })
+
+  it('can retrieve activities with multiple filters', async () => {
+    const response = await sdk.getActivities({
+      filters: {
+        operation: 'create',
+        result: 'success',
+        state: 'completed'
       }
     })
 
