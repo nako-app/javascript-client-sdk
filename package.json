@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "generate-defs": "./node_modules/.bin/graphql-codegen",
     "prepare": "npm run build",
     "lint": "prettier --config=.prettierrc \"**/*.(js|ts)\" --write --ignore-unknown",
     "postinstall": "husky install",
@@ -35,9 +36,13 @@
     "apollo-link": "^1.2.14",
     "cross-fetch": "^3.0.6",
     "graphql": "^15.5.0",
+    "lodash": "^4.17.21",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.1",
+    "@graphql-codegen/typescript": "^1.21.0",
+    "@graphql-codegen/typescript-operations": "^1.17.14",
     "@types/chai": "^4.2.15",
     "@types/mocha": "^8.2.1",
     "@types/node": "^14.14.31",

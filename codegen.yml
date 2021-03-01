@@ -1,0 +1,9 @@
+schema:
+  - https://api.nako.co/v1/graphql:
+      headers:
+        Authorization: "IwTaMDSpMV2NkjaRxvw7dXjHgMLx1yO8yuUT49cc"
+generates:
+  ./api.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations

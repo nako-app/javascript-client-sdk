@@ -1,8 +1,10 @@
 import fetch from 'cross-fetch'
+import _ from 'lodash'
 import { ApolloClient, createHttpLink, gql } from '@apollo/client/core'
 import { InMemoryCache } from '@apollo/client/cache'
 import { setContext } from '@apollo/client/link/context'
-import { ActivityList, Filters } from './types'
+import { Activity, QueryActivitiesArgs } from './api'
+import { ActivityList } from './types'
 
 interface NakoClientOptions {
   apiKey?: string
@@ -40,18 +42,16 @@ export class NakoClient {
     return new NakoClient()
   }
 
-  async getActivities(filters?: Filters): Promise<ActivityList> {
-    const page = filters?.pagination?.page || 0
-    const limit = filters?.pagination?.limit || 10
+  async getActivities(args?: QueryActivitiesArgs): Promise<ActivityList> {
+    const params = args ? `(${JSON.stringify(args).replace('{', '').replace('}', '')})` : ''
 
     const result = await NakoClient.client.query({
       query: gql`
         query {
-          activities(page: ${page}, limit: ${limit}, sort: {
-            direction: ${filters?.sort?.direction || 'desc'}
-          }) {
+          activities${params} {
             items {
               id
+              created_at
               happened_at
               metadata
               operation
@@ -59,6 +59,20 @@ export class NakoClient {
                 id
                 first_name
                 last_name
+                type
+              }
+              resources {
+                id
+                name
+                type
+              }
+              result {
+                status
+                details
+              }
+              state {
+                status
+                details
               }
             }
             total
@@ -69,27 +83,11 @@ export class NakoClient {
 
     return {
       items: result.data.activities.items.map(r => {
-        return {
-          createdAt: r.created_at,
-          happenedAt: r.happened_at,
-          id: r.id,
-          metadata: r.metadata,
-          operation: r.operation,
-          resources: r.resources,
-          actors: r.actors.map(a => {
-            return {
-              id: a.id,
-              type: a.type,
-              firstName: a.first_name,
-              lastName: a.last_name,
-              isPrimary: a.is_primary
-            }
-          }),
-          result: r.result,
-          state: r.state
-        }
+        const result = _.mapKeys(r, (v, k) => _.camelCase(k))
+        delete result.typename
+        return result
       }),
-      total: result.total
+      total: result.data.activities.total
     }
   }
 
